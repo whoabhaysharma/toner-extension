@@ -6,7 +6,7 @@ module.exports = {
     entry: {
         background : './src/background.js',
         popup: './src/index.js', // React popup
-        content: './src/content.js', // Content script
+        content: './src/content/loader.js', // Content script
     },
     output: {
         filename: '[name].js', // Name based on entry (popup.js, content.js, etc.)
