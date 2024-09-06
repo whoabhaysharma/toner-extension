@@ -32,16 +32,21 @@ module.exports = {
         ]
     },
     plugins: [
+        // new HtmlWebpackPlugin({
+        //     template: './src/popup/popup.html',
+        //     filename: 'popup.html',
+        //     chunks: ['popup'] // Only include popup.js in popup.html
+        // }),
         new HtmlWebpackPlugin({
-            template: './src/popup/popup.html',
-            filename: 'popup.html',
-            chunks: ['popup'] // Only include popup.js in popup.html
+            template: './public/index.html',
+            filename: 'index.html',
+            chunks: ['content'] // Only include popup.js in popup.html
         }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: 'public/manifest.json', to: '' }, // Copy manifest.json
-            ]
-        })
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         { from: 'public/manifest.json', to: '' }, // Copy manifest.json
+        //     ]
+        // })
     ],
     resolve: {
         extensions: ['.js', '.jsx']

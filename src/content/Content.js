@@ -1,36 +1,58 @@
-import React, { useEffect, useState } from 'react'
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import React, { useRef } from 'react'
+import ToneSelector from '../components/ToneSelector';
 
 const Content = () => {
-    const [pos, setPos] = useState(null)
 
-    useEffect(() => {
-        document.addEventListener('mouseup', (e) => {
-            if (window.getSelection().toString() !== "") {
-                const { clientX = 0, clientY = 0 } = e
-                setPos({ x: clientX, y: clientY })
-            } else {
-                setPos(null)
-            }
-        })
+    const container = useRef();
+
+    useGSAP(
     
-      return () => {
-        
-      }
-    }, [])
+        () => {
+            document.addEventListener('mouseup', (event) => {
+                if(window.getSelection().toString() !== "") {
+                    let mouseX = event.clientX;
+                    let mouseY = event.clientY;
+                    const padding = 10;
+                    const containerWidth = 300; // Assuming width from the className
+                    const containerHeight = 300; // Assuming height from the className
+
+                    // Adjust position if too close to edges
+                    if (mouseX < padding) mouseX = padding;
+                    if (mouseY < padding) mouseY = padding;
+                    if (mouseX > window.innerWidth - containerWidth - padding) {
+                        mouseX = window.innerWidth - containerWidth - padding;
+                    }
+                    if (mouseY > window.innerHeight - containerHeight - padding) {
+                        mouseY = window.innerHeight - containerHeight - padding;
+                    }
+
+                    gsap.fromTo(container.current, 
+                        { scale: 0, left: mouseX, top: mouseY },
+                        { scale: 1, left: mouseX, top: mouseY, ease: "elastic.out(1,0.3)", duration: 1 }
+                    );
+                }
+            });
+
+            document.addEventListener('mousemove', () => {
+                if(window.getSelection().toString() === "") {
+                    gsap.to(container.current, { scale: 0, duration: 0.3, ease: "power1.out" });
+                }
+            });
+            // gsap code here...
+        },
+        { scope: container }
+    ); // <-- scope is for selector text (optional)
     
     return (
         <div
-            style={{
-                left: pos ? pos.x : 0,
-                top: pos ? pos.y : 0,
-                transition : pos ? "1s transform ease-in-out" : "",
-                transform : pos === null ? `scale(0)` : `scale(1)` 
-            }}
-            className="fixed h-[300px] w-[300px] bg-red-600 rounded-md flex justify-center items-center text-white"
+            ref={container}
+            className="fixed scale-0 h-[300px] w-[300px] rounded-md flex justify-center items-center text-white"
         >
-            hello world
+            <ToneSelector/>
         </div>
-    )
-}
+    );
+};
 
-export default Content
+export default Content;
