@@ -3,6 +3,8 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Draggable } from 'gsap/all'
 import { roundToDecimalPlaces } from '../util/MathUtil'
+import Lottie from 'lottie-react'
+import aiAnimation from '../animations/aiBall.json'
 
 // Register the plugins
 gsap.registerPlugin(useGSAP, Draggable)
@@ -85,7 +87,8 @@ export default function ToneSelector({onToneChange = () => {}}) {
     }, { scope: container})
 
     return (
-        <div ref={container} className="relative h-full w-full bg-[#2C2C2C] rounded-lg overflow-hidden">
+        <div className="flex flex-row gap-1 h-full w-full">
+            <div ref={container} className="relative h-full w-full bg-[#2C2C2C] rounded-lg overflow-hidden">
             <div className="h-full w-full absolute top-0 left-0 p-3">
                 <Column>
                     <Row>
@@ -110,7 +113,14 @@ export default function ToneSelector({onToneChange = () => {}}) {
                 className="absolute h-[30px] w-[30px] bg-[#ffffff] rounded-full cursor-move shadow-md transition-shadow duration-300 ease-in-out p-1"
             >
                 <div className="h-full w-full bg-[#F65009] rounded-full"></div>
+                </div>
+            </div>
+
+            {/* INPUT */}
+            <div className="w-full h-full bg-[#2C2C2C] rounded-lg p-2">
+                <input type="text" className="w-full h-full bg-[#2C2C2C] rounded-lg p-2" />
             </div>
         </div>
+        
     )
 }

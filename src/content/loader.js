@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client';
 import Content from './Content';
 import '../index.css'
 
-// const div = document.createElement("div")
-// div.id = "root2"
-// document.body.appendChild(div)
+const div = document.createElement("div")
+div.id = "root2"
+document.body.appendChild(div)
 
-const root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById("root2"));
 root.render(<Content />);
