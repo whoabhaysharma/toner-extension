@@ -1,2 +1,9 @@
-extensions
-node_modules
+# Backend
+Backend/.env
+Backend/node_modules
+
+# Frontend
+Frontend/node_modules
+Frontend/build
+Frontend/dist
+Frontend/extensions
