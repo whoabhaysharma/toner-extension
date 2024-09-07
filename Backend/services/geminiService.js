@@ -1,6 +1,13 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const apiKey = process.env.API_KEY;
+if (!apiKey) {
+  throw new Error('API_KEY is not set in the environment variables');
+}
+
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const MODEL = "gemini-1.5-flash"

@@ -1,4 +1,4 @@
-import { changeTone } from "../services/toneService";
+const { changeTone } = require("../services/toneService");
 
 const modifyTone = async (req, res) => {
     const { text, tone } = req.body;
