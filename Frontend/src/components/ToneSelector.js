@@ -3,9 +3,6 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Draggable } from 'gsap/all'
 import { roundToDecimalPlaces } from '../util/MathUtil'
-import Lottie from 'lottie-react'
-import aiAnimation from '../animations/aiBall.json'
-
 // Register the plugins
 gsap.registerPlugin(useGSAP, Draggable)
 
@@ -43,14 +40,15 @@ export default function ToneSelector({onToneChange = () => {}}) {
 
         if (!containerEl || !handleEl) return
 
-        const containerRect = containerEl.getBoundingClientRect()
-        const handleRect = handleEl.getBoundingClientRect()
-
         Draggable.create(handleEl, {
             type: 'x,y',
             bounds: containerEl,
             inertia: true,
             onDrag: function () {
+                // Recalculate container and handle dimensions on each drag
+                const containerRect = containerEl.getBoundingClientRect()
+                const handleRect = handleEl.getBoundingClientRect()
+
                 // Calculate the position of the top-left corner of the handle
                 const handleLeftEdge = this.x;
                 const handleTopEdge = this.y;
@@ -67,22 +65,20 @@ export default function ToneSelector({onToneChange = () => {}}) {
                 const xPercentage = clampedX / maxX;
                 const yPercentage = clampedY / maxY;
 
-                // Calculate the values to return
-                const returnX = xPercentage * containerRect.width;
-                const returnY = yPercentage * containerRect.height;
-
                 // Update the handle's position
                 this.x = clampedX;
                 this.y = clampedY;
 
-                const xMapped = returnX / containerRect.width
-                const yMapped = returnY / containerRect.height
+                const xMapped = xPercentage
+                const yMapped = yPercentage
 
                 onToneChange({ x: roundToDecimalPlaces(xMapped, 1), y: 1 - roundToDecimalPlaces(yMapped, 1) })
             }
         })
 
         // Initialize handle position to center
+        const containerRect = containerEl.getBoundingClientRect()
+        const handleRect = handleEl.getBoundingClientRect()
         gsap.set(handleEl, { x: (containerRect.width - handleRect.width) / 2, y: (containerRect.height - handleRect.height) / 2 })
     }, { scope: container})
 
@@ -114,11 +110,6 @@ export default function ToneSelector({onToneChange = () => {}}) {
             >
                 <div className="h-full w-full bg-[#F65009] rounded-full"></div>
                 </div>
-            </div>
-
-            {/* INPUT */}
-            <div className="w-full h-full bg-[#2C2C2C] rounded-lg p-2">
-                <input type="text" className="w-full h-full bg-[#2C2C2C] rounded-lg p-2" />
             </div>
         </div>
         
